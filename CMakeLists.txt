@@ -67,9 +67,6 @@ if(NC_COMMON_BUILD_TESTS)
     add_subdirectory(test)
 endif()
 
-
-# need to install lib??
-
 install(DIRECTORY   ${PROJECT_SOURCE_DIR}/include/
         DESTINATION include
 )
