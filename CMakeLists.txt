@@ -57,7 +57,6 @@ target_link_libraries(NcCommon
 target_include_directories(NcCommon
     PUBLIC
         $<INSTALL_INTERFACE:include/>
-    PRIVATE
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 )
 
