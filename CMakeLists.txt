@@ -19,8 +19,8 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     )
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(NC_COMMON_COMPILE_OPTIONS /W3
-                                   /WX
-                                   /MP
+                                  /WX
+                                  /MP
     )
 endif()
 
