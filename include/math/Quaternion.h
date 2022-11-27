@@ -38,14 +38,14 @@ Quaternion Scale(const Quaternion& quat, float factor);
 
 inline bool operator==(const Quaternion& lhs, const Quaternion& rhs)
 {
-    return math::FloatEqual(lhs.x, rhs.x) &&
-           math::FloatEqual(lhs.y, rhs.y) &&
-           math::FloatEqual(lhs.z, rhs.z) &&
-           math::FloatEqual(lhs.w, rhs.w);
+    return FloatEqual(lhs.x, rhs.x) &&
+           FloatEqual(lhs.y, rhs.y) &&
+           FloatEqual(lhs.z, rhs.z) &&
+           FloatEqual(lhs.w, rhs.w);
 }
 
 inline bool operator!=(const Quaternion& lhs, const Quaternion& rhs)
 {
     return !(lhs == rhs);
 }
-}
+} // namespace nc

@@ -62,7 +62,6 @@ constexpr auto HadamardProduct(const Vector2& lhs, const Vector2& rhs) noexcept 
 constexpr auto SquareMagnitude(const Vector2& vec) noexcept -> float;
 inline    auto Magnitude(const Vector2& vec) noexcept -> float;
 inline    auto Normalize(const Vector2& vec) noexcept -> Vector2;
-constexpr auto Lerp(const Vector2& lhs, const Vector2& rhs, float factor) noexcept -> Vector2;
 constexpr auto SquareDistance(const Vector2& lhs, const Vector2& rhs) noexcept -> float;
 inline    auto Distance(const Vector2& lhs, const Vector2& rhs) noexcept -> float;
 constexpr auto HasAnyZeroElement(const Vector2& vec) noexcept -> bool;
@@ -88,7 +87,6 @@ constexpr auto HadamardProduct(const Vector3& lhs, const Vector3& rhs) noexcept 
 constexpr auto SquareMagnitude(const Vector3& vec) noexcept -> float;
 inline    auto Magnitude(const Vector3& vec) noexcept -> float;
 inline    auto Normalize(const Vector3& vec) noexcept -> Vector3;
-constexpr auto Lerp(const Vector3& lhs, const Vector3& rhs, float factor) noexcept -> Vector3;
 constexpr auto SquareDistance(const Vector3& lhs, const Vector3& rhs) noexcept -> float;
 inline    auto Distance(const Vector3& lhs, const Vector3& rhs) noexcept -> float;
 constexpr auto HasAnyZeroElement(const Vector3& vec) noexcept -> bool;
@@ -110,7 +108,6 @@ constexpr auto HadamardProduct(const Vector4& lhs, const Vector4& rhs) noexcept 
 constexpr auto SquareMagnitude(const Vector4& vec) noexcept -> float;
 inline    auto Magnitude(const Vector4& vec) noexcept -> float;
 inline    auto Normalize(const Vector4& vec) noexcept -> Vector4;
-constexpr auto Lerp(const Vector4& lhs, const Vector4& rhs, float factor) noexcept -> Vector4;
 constexpr auto SquareDistance(const Vector4& lhs, const Vector4& rhs) noexcept -> float;
 inline    auto Distance(const Vector4& lhs, const Vector4& rhs) noexcept -> float;
 constexpr auto HasAnyZeroElement(const Vector4& vec) noexcept -> bool;
@@ -181,11 +178,6 @@ float Magnitude(const Vector2& vec) noexcept
 Vector2 Normalize(const Vector2& vec) noexcept
 {
     return vec == Vector2::Zero() ? Vector2::Zero() : vec / Magnitude(vec);
-}
-
-constexpr Vector2 Lerp(const Vector2& from, const Vector2& to, float factor) noexcept
-{ 
-    return Lerp(from, to, factor);
 }
 
 constexpr float SquareDistance(const Vector2& lhs, const Vector2& rhs) noexcept
@@ -313,11 +305,6 @@ Vector3 Normalize(const Vector3& vec) noexcept
     return vec == Vector3::Zero() ? Vector3::Zero() : vec / Magnitude(vec);
 }
 
-constexpr Vector3 Lerp(const Vector3& lhs, const Vector3& rhs, float factor) noexcept
-{
-    return Lerp(lhs, rhs, factor);
-}
-
 constexpr float SquareDistance(const Vector3& lhs, const Vector3& rhs) noexcept
 {
     return SquareMagnitude(lhs - rhs);
@@ -356,9 +343,9 @@ void OrthogonalBasis(const Vector3& vec, Vector3* a, Vector3* b) noexcept
 constexpr bool operator ==(const Vector4& lhs, const Vector4& rhs) noexcept
 {
     return FloatEqual(lhs.x, rhs.x) &&
-            FloatEqual(lhs.y, rhs.y) &&
-            FloatEqual(lhs.z, rhs.z) &&
-            FloatEqual(lhs.w, rhs.w);
+           FloatEqual(lhs.y, rhs.y) &&
+           FloatEqual(lhs.z, rhs.z) &&
+           FloatEqual(lhs.w, rhs.w);
 }
 
 constexpr bool operator !=(const Vector4& lhs, const Vector4& rhs) noexcept
@@ -421,11 +408,6 @@ Vector4 Normalize(const Vector4& vec) noexcept
     return vec == Vector4::Zero() ? Vector4::Zero() : vec / Magnitude(vec);
 }
 
-constexpr Vector4 Lerp(const Vector4& lhs, const Vector4& rhs, float factor) noexcept
-{
-    return Lerp(lhs, rhs, factor);
-}
-
 constexpr float SquareDistance(const Vector4& lhs, const Vector4& rhs) noexcept
 {
     return SquareMagnitude(lhs - rhs);
@@ -439,9 +421,9 @@ float Distance(const Vector4& lhs, const Vector4& rhs) noexcept
 constexpr bool HasAnyZeroElement(const Vector4& vec) noexcept
 {
     return FloatEqual(vec.x, 0.0f) ||
-            FloatEqual(vec.y, 0.0f) ||
-            FloatEqual(vec.z, 0.0f) ||
-            FloatEqual(vec.w, 0.0f);
+           FloatEqual(vec.y, 0.0f) ||
+           FloatEqual(vec.z, 0.0f) ||
+           FloatEqual(vec.w, 0.0f);
 }
 
 constexpr auto HasUniformElements(const Vector4& vec) noexcept -> bool
