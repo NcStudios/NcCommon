@@ -1,6 +1,6 @@
+### StringHash Tests ###
 set(NC_HASH_TEST_COLLATERAL_DIRECTORY ${PROJECT_SOURCE_DIR}/test/utility/collateral/)
 
-### StringHash Tests ###
 add_executable(StringHash_unit_tests
     StringHash_unit_test.cpp
 )

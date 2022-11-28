@@ -1,7 +1,6 @@
 # Fetch gtest
 set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
 set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-
 enable_testing()
 
 FetchContent_Declare(googletest
@@ -10,8 +9,7 @@ FetchContent_Declare(googletest
 )
 
 FetchContent_MakeAvailable(googletest)
-
 include(GoogleTest)
 
-add_subdirectory(math)
-add_subdirectory(utility)
+add_subdirectory(ncmath)
+add_subdirectory(ncutility)

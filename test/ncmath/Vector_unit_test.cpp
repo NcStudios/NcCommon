@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "math/Vector.h"
+#include "ncmath/Vector.h"
 
 using namespace nc;
 

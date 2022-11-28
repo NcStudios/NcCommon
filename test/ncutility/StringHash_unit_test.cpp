@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "utility/Hash.h"
+#include "ncutility/Hash.h"
 
 #include <fstream>
 #include <set>

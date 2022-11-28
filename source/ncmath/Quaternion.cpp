@@ -1,7 +1,7 @@
-#include "math/Quaternion.h"
-#include "DirectXMath.h"
-#include "utility/NcError.h"
+#include "ncmath/Quaternion.h"
+#include "ncutility/NcError.h"
 
+#include "DirectXMath.h"
 
 namespace nc
 {
