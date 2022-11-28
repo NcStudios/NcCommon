@@ -1,1 +1,2 @@
-add_subdirectory(math)
+add_subdirectory(ncmath)
+add_subdirectory(ncutility)

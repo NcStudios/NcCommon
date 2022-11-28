@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "math/Math.h"
+#include "ncmath/Math.h"
 
 TEST(Math_unit_tests, Min_FirstSmaller_ReturnsFirst)
 {

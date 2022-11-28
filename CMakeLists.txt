@@ -4,32 +4,29 @@ project("NcCommon"
         LANGUAGES CXX
 )
 
-# Options
 option(NC_COMMON_BUILD_TESTS "Enable building tests." OFF)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_DEBUG_POSTFIX d)
+
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
     set(NC_COMMON_COMPILE_OPTIONS -Werror
-                                   -Wall
-                                   -Wextra
-                                   -Wfatal-errors
-                                   -Wno-cast-function-type
-    )
+                                  -Wall
+                                  -Wextra
+                                  -Wfatal-errors
+                                  -Wno-cast-function-type)
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     set(NC_COMMON_COMPILE_OPTIONS /W3
                                   /WX
-                                  /MP
-    )
+                                  /MP)
 endif()
-
 
 include(FetchContent)
 
 FetchContent_Declare(DirectXMath
                      GIT_REPOSITORY https://github.com/NcStudios/DirectXMath.git
-                     GIT_TAG        4533e8faeb4f9d251a87ca3f67b863ae25196d2c # origin/main
+                     GIT_TAG        ded5227452f4ac0b9e03eedcb5b274871d89afad # origin/main
 )
 
 # We only need {fmt} because GCC hasn't implemented std::format yet. Can be removed eventually.
@@ -41,31 +38,8 @@ FetchContent_Declare(fmt
 
 FetchContent_MakeAvailable(DirectXMath fmt)
 
-add_library(NcCommon STATIC)
-
-target_compile_options(NcCommon
-    PRIVATE
-        ${NC_COMMON_COMPILE_OPTIONS}
-)
-
-target_link_libraries(NcCommon
-    PUBLIC
-        DirectXMath
-        fmt::fmt
-)
-
-target_include_directories(NcCommon
-    PUBLIC
-        $<INSTALL_INTERFACE:include/>
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-)
-
 add_subdirectory(source)
 
 if(NC_COMMON_BUILD_TESTS)
     add_subdirectory(test)
 endif()
-
-install(DIRECTORY   ${PROJECT_SOURCE_DIR}/include/
-        DESTINATION include
-)
