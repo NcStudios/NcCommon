@@ -36,12 +36,7 @@ FetchContent_Declare(fmt
                      GIT_TAG        fc07217d85e6dcec52878807d6bbd89a9d9156a5
 )
 
-set(JSON_Install ON)
-FetchContent_Declare(json
-                     URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
-)
-
-FetchContent_MakeAvailable(DirectXMath fmt json)
+FetchContent_MakeAvailable(DirectXMath fmt)
 
 add_subdirectory(source)
 
