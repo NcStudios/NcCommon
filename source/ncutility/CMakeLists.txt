@@ -3,7 +3,6 @@ add_library(NcUtility INTERFACE)
 target_link_libraries(NcUtility
     INTERFACE
         fmt::fmt
-        nlohmann_json::nlohmann_json
 )
 
 target_include_directories(NcUtility
