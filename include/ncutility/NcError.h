@@ -34,13 +34,13 @@ class NcError : public std::runtime_error
 
     auto Format(const std::string& msg, const NC_SOURCE_LOCATION& location) -> std::string
     {
-        return fmt::format(R"(File: {}\nFunc: {}\nLine: {}\n  {}\n)",
+        return fmt::format("File: {}\nFunc: {}\nLine: {}\n  {}\n",
             location.file_name(), location.function_name(), location.line(), msg);
     }
 
     auto Format(const std::string& msg, const std::string& detail, const NC_SOURCE_LOCATION& location) -> std::string
     {
-        return fmt::format(R"(File: {}\nFunc: {}\nLine: {}\n  {}\n  {}\n)",
+        return fmt::format("File: {}\nFunc: {}\nLine: {}\n  {}\n  {}\n",
             location.file_name(), location.function_name(), location.line(), msg, detail);
     }
 };

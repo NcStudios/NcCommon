@@ -8,3 +8,6 @@ NcStudios repos should consume NcCommon via `FetchContent()` targeting the `rele
 
 ### Build Options
     NC_COMMON_BUILD_TESTS (default OFF)
+
+    NC_COMMON_STATIC_ANALYSIS (default OFF)
+        Note: MSVC Only

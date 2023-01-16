@@ -43,8 +43,9 @@ constexpr T Lerp(T from, T to, U factor) noexcept
 template<std::floating_point T>
 constexpr T WrapAngle(T theta) noexcept
 {
-    const T modTwoPi = std::fmod(theta, 2.0L * std::numbers::pi);
-    return (modTwoPi > std::numbers::pi ? (modTwoPi - 2.0L * std::numbers::pi) : modTwoPi);
+    constexpr auto twoPi = static_cast<T>(2.0L * std::numbers::pi);
+    const T modTwoPi = std::fmod(theta, twoPi);
+    return (modTwoPi > std::numbers::pi ? (modTwoPi - twoPi) : modTwoPi);
 }
 
 template<std::floating_point T>

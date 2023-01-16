@@ -5,21 +5,37 @@ project("NcCommon"
 )
 
 option(NC_COMMON_BUILD_TESTS "Enable building tests." OFF)
+option(NC_COMMON_STATIC_ANALYSIS "Enable static analysis (MSVC Only)" OFF)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_DEBUG_POSTFIX d)
 
 if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    set(NC_COMMON_COMPILE_OPTIONS -Werror
-                                  -Wall
-                                  -Wextra
-                                  -Wfatal-errors
-                                  -Wno-cast-function-type)
+    set(NC_COMMON_COMPILE_OPTIONS
+        -Werror
+        -Wall
+        -Wextra
+        -Wshadow
+        -Wconversion
+        -Wfatal-errors
+        -Wno-cast-function-type
+    )
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
-    set(NC_COMMON_COMPILE_OPTIONS /W3
-                                  /WX
-                                  /MP)
+    set(NC_COMMON_COMPILE_OPTIONS
+        /W4
+        /WX
+        /MP
+    )
+    if(${NC_COMMON_STATIC_ANALYSIS})
+        set(NC_COMMON_COMPILE_OPTIONS
+            ${NC_COMMON_COMPILE_OPTIONS}
+            /analyze
+            /analyze:external-
+            /external:I${PROJECT_BINARY_DIR}/_deps
+            /wd6326 # Suppress 'potential comparison of constants'
+        )
+    endif()
 endif()
 
 include(FetchContent)
@@ -36,12 +52,7 @@ FetchContent_Declare(fmt
                      GIT_TAG        fc07217d85e6dcec52878807d6bbd89a9d9156a5
 )
 
-set(JSON_Install ON)
-FetchContent_Declare(json
-                     URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz
-)
-
-FetchContent_MakeAvailable(DirectXMath fmt json)
+FetchContent_MakeAvailable(DirectXMath fmt)
 
 add_subdirectory(source)
 
