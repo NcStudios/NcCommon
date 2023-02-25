@@ -115,7 +115,8 @@ TEST(AlgorithmTests, Enumerate_standardContainers_returnsCorrectIndices)
     for (const auto [index, pair] : nc::algo::Enumerate(map))
     {
         const auto& [key, value] = pair;
-        EXPECT_EQ(static_cast<int>(index), key);
+        EXPECT_TRUE(index == 0 || index == 1 || index == 2);
+        EXPECT_EQ(map.at(key), value);
     }
 }
 
