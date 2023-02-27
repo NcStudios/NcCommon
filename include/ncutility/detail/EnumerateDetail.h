@@ -39,7 +39,8 @@ concept simple_view =
 
 template<std::ranges::input_range V>
     requires std::ranges::view<V>
-class enumerate_view : public std::ranges::view_interface<enumerate_view<V>> {
+class enumerate_view : public std::ranges::view_interface<enumerate_view<V>>
+{
 
     V m_base = {};
 
