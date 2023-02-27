@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Math.h"
 
 namespace nc
@@ -8,7 +9,7 @@ struct Vector2
     float x, y;
 
     constexpr explicit Vector2() noexcept : x{0.0f}, y{0.0f} {}
-    constexpr explicit Vector2(float x, float y) noexcept : x{x}, y{y} {}
+    constexpr explicit Vector2(float x_, float y_) noexcept : x{x_}, y{y_} {}
     static constexpr Vector2 Splat(float v) noexcept { return Vector2{v, v}; }
     static constexpr Vector2 Zero()  noexcept { return Vector2{ 0, 0}; }
     static constexpr Vector2 One()   noexcept { return Vector2{ 1, 1}; }
@@ -23,8 +24,8 @@ struct Vector3
     float x, y, z;
 
     constexpr Vector3() noexcept : x{0.0f}, y{0.0f}, z{0.0f} {}
-    constexpr explicit Vector3(float x, float y, float z) noexcept : x{x}, y{y}, z{z} {}
-    constexpr explicit Vector3(const Vector2& v, float z) noexcept : x{v.x}, y{v.y}, z{z} {}
+    constexpr explicit Vector3(float x_, float y_, float z_) noexcept : x{x_}, y{y_}, z{z_} {}
+    constexpr explicit Vector3(const Vector2& v, float z_) noexcept : x{v.x}, y{v.y}, z{z_} {}
     static constexpr Vector3 Splat(float v) noexcept { return Vector3{v, v, v}; }
     static constexpr Vector3 Zero()  noexcept { return Vector3{ 0, 0, 0}; }
     static constexpr Vector3 One()   noexcept { return Vector3{ 1, 1, 1}; }
@@ -41,8 +42,8 @@ struct Vector4
     float x, y, z, w;
 
     constexpr explicit Vector4() noexcept : x{0.0f}, y{0.0f}, z{0.0f}, w{0.0f} {}
-    constexpr explicit Vector4(float x, float y, float z, float w) noexcept : x{x}, y{y}, z{z}, w{w} {}
-    constexpr explicit Vector4(const Vector3& v, float w) noexcept : x{v.x}, y{v.y}, z{v.z}, w{w} {}
+    constexpr explicit Vector4(float x_, float y_, float z_, float w_) noexcept : x{x_}, y{y_}, z{z_}, w{w_} {}
+    constexpr explicit Vector4(const Vector3& v, float w_) noexcept : x{v.x}, y{v.y}, z{v.z}, w{w_} {}
     static constexpr Vector4 Splat(float v) noexcept { return Vector4{v, v, v, v}; }
     static constexpr Vector4 Zero() noexcept { return Vector4(0, 0, 0, 0); }
     static constexpr Vector4 One()  noexcept { return Vector4(1, 1, 1, 1); }
@@ -172,7 +173,7 @@ constexpr float SquareMagnitude(const Vector2& vec) noexcept
 
 float Magnitude(const Vector2& vec) noexcept
 {
-    return sqrt(SquareMagnitude(vec));
+    return sqrtf(SquareMagnitude(vec));
 }
 
 Vector2 Normalize(const Vector2& vec) noexcept
@@ -297,7 +298,7 @@ constexpr float SquareMagnitude(const Vector3& vec) noexcept
 
 float Magnitude(const Vector3& vec) noexcept
 {
-    return sqrt(SquareMagnitude(vec));
+    return sqrtf(SquareMagnitude(vec));
 }
 
 Vector3 Normalize(const Vector3& vec) noexcept
@@ -327,8 +328,8 @@ constexpr auto HasUniformElements(const Vector3& vec) noexcept -> bool
 
 Vector3 OrthogonalTo(const Vector3& vec) noexcept
 {
-    const float invSqrt3 = 1.0f / sqrt(3.0f);
-    return (abs(vec.x) >= invSqrt3) ?
+    const float invSqrt3 = 1.0f / sqrtf(3.0f);
+    return (fabs(vec.x) >= invSqrt3) ?
         Normalize(Vector3{vec.y, -1.0f * vec.x, 0.0f}) :
         Normalize(Vector3{0.0f, vec.z, -1.0f * vec.y});
 }
@@ -400,7 +401,7 @@ constexpr float SquareMagnitude(const Vector4& vec) noexcept
 
 float Magnitude(const Vector4& vec) noexcept
 {
-    return sqrt(SquareMagnitude(vec));
+    return sqrtf(SquareMagnitude(vec));
 }
 
 Vector4 Normalize(const Vector4& vec) noexcept

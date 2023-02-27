@@ -9,6 +9,7 @@ target_include_directories(NcUtility
     INTERFACE
         $<INSTALL_INTERFACE:include/>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source/external>
 )
 
 set_target_properties(NcUtility PROPERTIES
@@ -19,5 +20,9 @@ set_target_properties(NcUtility PROPERTIES
 )
 
 install(DIRECTORY   ${PROJECT_SOURCE_DIR}/include/ncutility
+        DESTINATION include
+)
+
+install(DIRECTORY   ${PROJECT_SOURCE_DIR}/source/external/nlohmann
         DESTINATION include
 )

@@ -67,7 +67,7 @@ jobs:
           ninja:p
 
     - name: Configure
-      run: cmake -G "Ninja" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DNC_COMMON_BUILD_TESTS=ON
+      run: cmake -G "Ninja" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DNC_COMMON_BUILD_TESTS=ON -DNC_COMMON_STATIC_ANALYSIS=ON
 
     - name: Build and Install
       run: cmake --build build --target install --parallel 2
