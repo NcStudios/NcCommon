@@ -102,7 +102,7 @@ jobs:
 
     - name: Upload Test Results
       if: always()
-      uses: actions/upload-artifacts@v3
+      uses: actions/upload-artifact@v3
       with:
         name: macOS-TestResults
         path: build/test/TestResults.xml
