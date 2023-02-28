@@ -83,7 +83,9 @@ jobs:
         name: Win-MinGW-TestResults
         path: build/test/TestResults.xml
 
-  macOS-Clang:
+  macOS-AppleClang:
+    runs-on: macos-12
+
     steps:
     - name: Checkout Branch
       uses: actions/checkout@v3
