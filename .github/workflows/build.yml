@@ -109,7 +109,7 @@ jobs:
 
   Publish-Test-Results:
     runs-on: ubuntu-latest
-    needs: [Win-VS-17, Win-MinGW-w64, macOS-Clang]
+    needs: [Win-VS-17, Win-MinGW-w64, macOS-AppleClang]
     permissions:
       checks: write
       pull-requests: write
