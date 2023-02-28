@@ -27,7 +27,7 @@ jobs:
       uses: ilammy/msvc-dev-cmd@v1
 
     - name: Configure
-      run: cmake -G "Visual Studio 17 2022" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
+      run: cmake -G "Visual Studio 17 2022" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON -DNC_COMMON_STATIC_ANALYSIS=ON
 
     - name: Build and Install
       run: cmake --build build --target install --config Release
@@ -67,7 +67,7 @@ jobs:
           ninja:p
 
     - name: Configure
-      run: cmake -G "Ninja" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DNC_COMMON_BUILD_TESTS=ON -DNC_COMMON_STATIC_ANALYSIS=ON
+      run: cmake -G "Ninja" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DNC_COMMON_BUILD_TESTS=ON
 
     - name: Build and Install
       run: cmake --build build --target install --parallel 2
