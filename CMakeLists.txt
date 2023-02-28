@@ -43,6 +43,7 @@ include(FetchContent)
 FetchContent_Declare(DirectXMath
                      GIT_REPOSITORY https://github.com/NcStudios/DirectXMath.git
                      GIT_TAG        ded5227452f4ac0b9e03eedcb5b274871d89afad # origin/main
+                     GIT_SHALLOW    TRUE
 )
 
 # We only need {fmt} because GCC hasn't implemented std::format yet. Can be removed eventually.

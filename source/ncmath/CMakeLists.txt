@@ -17,6 +17,15 @@ target_include_directories(NcMath
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
 )
 
+# Allow DirectXMath to find Microsoft annotations (sal.h)
+if(NOT MSVC)
+    target_include_directories(NcMath
+        PUBLIC
+            $<INSTALL_INTERFACE:include/platform/unix>
+            $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/external/platform/unix>
+    )
+endif()
+
 target_sources(NcMath
     PRIVATE
         Quaternion.cpp
@@ -29,3 +38,9 @@ install(TARGETS     NcMath
 install(DIRECTORY   ${PROJECT_SOURCE_DIR}/include/ncmath
         DESTINATION include
 )
+
+if(NOT MSVC)
+    install(DIRECTORY   ${PROJECT_SOURCE_DIR}/external/platform
+            DESTINATION include
+    )
+endif()

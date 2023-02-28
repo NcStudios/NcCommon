@@ -83,9 +83,31 @@ jobs:
         name: Win-MinGW-TestResults
         path: build/test/TestResults.xml
 
+  macOS-Clang:
+    steps:
+    - name: Checkout Branch
+      uses: actions/checkout@v3
+    
+    - name: Configure
+      run: cmake -G "Xcode" -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TEST=ON
+
+    - name: Build and Install
+      run: cmake --build build --target install --config Release
+
+    - name: Run Test
+      working-directory: ${{github.workspace}}/build/test
+      run: ctest -V --output-on-failure --output-junit TestResults.xml
+
+    - name: Upload Test Results
+      if: always()
+      uses: actions/upload-artifacts@v3
+      with:
+        name: macOS-TestResults
+        path: build/test/TestResults.xml
+
   Publish-Test-Results:
     runs-on: ubuntu-latest
-    needs: [Win-VS-17, Win-MinGW-w64]
+    needs: [Win-VS-17, Win-MinGW-w64, macOS-Clang]
     permissions:
       checks: write
       pull-requests: write
