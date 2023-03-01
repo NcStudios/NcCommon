@@ -16,7 +16,7 @@ constexpr auto Fnv1a(std::string_view path) -> size_t
     auto hash = detail::FnvOffsetBasis;
     for(auto c : path)
     {
-        hash = (hash ^ c) * detail::FnvPrime;
+        hash = (hash ^ static_cast<uint8_t>(c)) * detail::FnvPrime;
     }
     return hash;
 }

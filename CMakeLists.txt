@@ -36,6 +36,15 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
             /wd6326 # Suppress 'potential comparison of constants'
         )
     endif()
+elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
+    set(NC_COMMON_COMPILE_OPTIONS
+        -Werror
+        -Wall
+        -Wextra
+        -Wshadow
+        -Wconversion
+        -Wno-cast-function-type
+    )
 endif()
 
 include(FetchContent)
