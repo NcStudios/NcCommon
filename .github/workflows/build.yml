@@ -40,11 +40,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup MSVC
-        if: ${{ matrix.name }} == Win-VS-17
+        if: ${{ ${{ matrix.name }} == 'Win-VS-17' }}
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Setup MSYS2
-        if: ${{ matrix.name }} == Win-MinGW-w64
+        if: ${{ ${{ matrix.name }} == 'Win-MinGW-w64' }}
         uses: msys2/setup-msys2@v2
         with:
           msystem: 'mingw64'
