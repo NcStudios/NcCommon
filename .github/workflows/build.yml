@@ -20,16 +20,16 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: windows-2022
-            name: "Win-VS-17"
+          - name: "Win-VS"
+            os: windows-2022
             generator: "Visual Studio 17 2022"
             definitions: "-DNC_COMMON_STATIC_ANALYSIS=ON"
-          - os: windows-2022
-            name: "Win-MinGW-w64"
+          - name: "Win-MinGW"
+            os: windows-2022
             generator: "Ninja"
             definitions: "-DCMAKE_BUILD_TYPE=Release"
-          - os: macos-12
-            name: "Mac-AppleClang-14"
+          - name: "Mac"
+            os: macos-12
             generator: "Xcode"
             definitions: ""
     
@@ -40,11 +40,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup MSVC
-        if: matrix.name == 'Win-VS-17'
+        if: matrix.name == 'Win-VS'
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Setup MSYS2
-        if: matrix.name == 'Win-MinGW-w64'
+        if: matrix.name == 'Win-MinGW'
         uses: msys2/setup-msys2@v2
         with:
           msystem: 'mingw64'
@@ -57,7 +57,7 @@ jobs:
             ninja:p
 
       - name: Configure
-        run: cmake -G ${{ matrix.generator }} -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TEST=ON ${{ matrix.definitions }}
+        run: cmake -G ${{ matrix.generator }} -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON ${{ matrix.definitions }}
 
       - name: Build
         run: cmake --build build --target install --config Release
@@ -72,97 +72,6 @@ jobs:
         with:
           name: ${{ matrix.name }}-TestResults
           path: build/test/TestResults.xml
-
-  # Win-VS-17:
-  #   runs-on: windows-2022
-
-  #   steps:
-  #   - name: Checkout Branch
-  #     uses: actions/checkout@v3
-
-  #   - name: Setup MSVC
-  #     uses: ilammy/msvc-dev-cmd@v1
-
-  #   - name: Configure
-  #     run: cmake -G "Visual Studio 17 2022" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON -DNC_COMMON_STATIC_ANALYSIS=ON
-
-  #   - name: Build and Install
-  #     run: cmake --build build --target install --config Release
-
-  #   - name: Run Tests
-  #     working-directory: ${{github.workspace}}/build/test
-  #     run: ctest -V --output-on-failure --output-junit TestResults.xml
-
-  #   - name: Upload Test Results
-  #     if: always()
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: Win-VS-17-TestResults
-  #       path: build/test/TestResults.xml
-
-  # Win-MinGW-w64:
-  #   runs-on: windows-2022
-
-  #   defaults:
-  #     run:
-  #       shell: msys2 {0}
-
-  #   steps:
-  #   - name: Checkout Branch
-  #     uses: actions/checkout@v3
-
-  #   - name: Setup MSYS2
-  #     uses: msys2/setup-msys2@v2
-  #     with:
-  #       msystem: 'mingw64'
-  #       update: true
-  #         git
-  #         make
-  #       pacboy: >-
-  #         toolchain:p
-  #         cmake:p
-  #         ninja:p
-
-  #   - name: Configure
-  #     run: cmake -G "Ninja" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DNC_COMMON_BUILD_TESTS=ON
-
-  #   - name: Build and Install
-  #     run: cmake --build build --target install --parallel 2
-
-  #   - name: Run Tests
-  #     working-directory: ${{github.workspace}}/build/test
-  #     run: ctest -V --output-on-failure --output-junit TestResults.xml
-
-  #   - name: Upload Test Results
-  #     if: always()
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: Win-MinGW-TestResults
-  #       path: build/test/TestResults.xml
-
-  # macOS-AppleClang-14:
-  #   runs-on: macos-12
-
-  #   steps:
-  #   - name: Checkout Branch
-  #     uses: actions/checkout@v3
-    
-  #   - name: Configure
-  #     run: cmake -G "Xcode" -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
-
-  #   - name: Build and Install
-  #     run: cmake --build build --target install --config Release
-
-  #   - name: Run Test
-  #     working-directory: ${{github.workspace}}/build/test
-  #     run: ctest -V --output-on-failure --output-junit TestResults.xml
-
-  #   - name: Upload Test Results
-  #     if: always()
-  #     uses: actions/upload-artifact@v3
-  #     with:
-  #       name: macOS-TestResults
-  #       path: build/test/TestResults.xml
 
   Publish-Test-Results:
     runs-on: ubuntu-latest
