@@ -57,10 +57,10 @@ jobs:
             ninja:p
 
       - name: Configure
-        run: cmake -G ${{ matrix.generator }} -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON ${{ matrix.definitions }}
+        run: cmake -G "${{ matrix.generator }}"" -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON ${{ matrix.definitions }}
 
       - name: Build
-        run: cmake --build build --target install --config Release
+        run: cmake --build build --target install --config Release --parallel 2
       
       - name: Run Tests
         working-directory: ${{ github.workspace }}/build/test
