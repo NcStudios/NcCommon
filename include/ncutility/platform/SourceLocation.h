@@ -7,6 +7,8 @@
     #include <experimental/source_location>
     #define NC_SOURCE_LOCATION std::experimental::source_location
 #else
+    namespace nc::detail
+    {
     struct PlacholderSourceLocation
     {
         static constexpr auto msg = "source_location not implemented on this compiler";
@@ -16,8 +18,9 @@
         constexpr auto line() const noexcept { return 0; }
         constexpr auto column() const noexcept { return 0; }
     };
+    } // namespace nc::detail
 
-    #define NC_SOURCE_LOCATION PlacholderSourceLocation
+    #define NC_SOURCE_LOCATION nc::detail::PlacholderSourceLocation
 #endif
 
 #define NC_SOURCE_LOCATION_CURRENT NC_SOURCE_LOCATION::current()
