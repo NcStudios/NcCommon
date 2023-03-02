@@ -131,6 +131,7 @@ TEST(AlgorithmTests, Enumerate_nonConstRange_canModifyValues)
     EXPECT_TRUE(std::ranges::equal(input, std::array<int, 3>{3, 3, 3}));
 }
 
+// TODO: This test seems to have issues due to experimental ranges support in clang
 // TEST(AlgorithmTests, Enumerate_composes)
 // {
 //     const auto input = std::vector<int>{2, 2, 2, 4, 4, 4};

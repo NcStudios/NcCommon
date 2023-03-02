@@ -38,12 +38,11 @@ elseif(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
     endif()
 elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
     set(NC_COMMON_COMPILE_OPTIONS
-        # -Werror
-        # -Wall
-        # -Wextra
-        # -Wshadow
-        # -Wconversion
-        # -Wno-cast-function-type
+        -Werror
+        -Wall
+        -Wextra
+        -Wshadow
+        -Wconversion
         -fexperimental-library
     )
 endif()
