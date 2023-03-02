@@ -91,7 +91,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Configure
-      run: cmake -G "Xcode" -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
+      run: CXX=$(brew --prefix llvm@15)/bin/clang++ cmake -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
 
     - name: Build and Install
       run: cmake --build build --target install --config Release
