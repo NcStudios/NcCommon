@@ -87,7 +87,7 @@ class enumerate_view : public std::ranges::view_interface<enumerate_view<V>>
 
         constexpr explicit iterator(std::ranges::iterator_t<Base> current, std::ranges::range_difference_t<Base> pos)
             : m_it(std::move(current)),
-              m_pos(pos)
+              m_pos(static_cast<count_type>(pos))
         {
         }
 
