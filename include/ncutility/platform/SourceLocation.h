@@ -9,10 +9,10 @@
 #else
     namespace nc::detail
     {
-    struct PlacholderSourceLocation
+    struct PlaceholderSourceLocation
     {
         static constexpr auto msg = "source_location not implemented on this compiler";
-        static constexpr auto current() noexcept { return PlacholderSourceLocation{}; }
+        static constexpr auto current() noexcept { return PlaceholderSourceLocation{}; }
         constexpr auto file_name() const noexcept { return msg; }
         constexpr auto function_name() const noexcept { return msg; }
         constexpr auto line() const noexcept { return 0; }
@@ -20,7 +20,7 @@
     };
     } // namespace nc::detail
 
-    #define NC_SOURCE_LOCATION nc::detail::PlacholderSourceLocation
+    #define NC_SOURCE_LOCATION nc::detail::PlaceholderSourceLocation
 #endif
 
 #define NC_SOURCE_LOCATION_CURRENT NC_SOURCE_LOCATION::current()
