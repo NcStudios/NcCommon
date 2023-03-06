@@ -34,6 +34,7 @@ jobs:
             env: "CXX=/usr/bin/g++-12"
             definitions: "-DCMAKE_BUILD_TYPE=Release"
 
+    name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
 
     steps:
