@@ -30,7 +30,7 @@ jobs:
             env: "CXX=$(brew --prefix llvm@15)/bin/clang++"
           - name: Linux
             os: ubuntu-22.04
-            generator: "Unix MakeFiles"
+            generator: "Unix Makefiles"
             env: "CXX=/usr/bin/g++-12"
             definitions: "-DCMAKE_BUILD_TYPE=Release"
 
@@ -153,13 +153,6 @@ jobs:
   #     with:
   #       name: macOS-TestResults
   #       path: build/test/TestResults.xml
-
-  Ubuntu:
-    runs-on: ubuntu-22.04
-
-    steps:
-    - name: Checkout Branch
-      uses: actions/checkout@v3
 
   Publish-Test-Results:
     runs-on: ubuntu-latest
