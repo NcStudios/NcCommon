@@ -64,6 +64,10 @@ FetchContent_Declare(fmt
 
 FetchContent_MakeAvailable(DirectXMath fmt)
 
+# Silence warnings from DirectXMath headers
+get_target_property(_DirectXMath_Include_Prop DirectXMath INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(DirectXMath SYSTEM INTERFACE ${_DirectXMath_Include_Prop})
+
 add_subdirectory(source)
 
 if(NC_COMMON_BUILD_TESTS)
