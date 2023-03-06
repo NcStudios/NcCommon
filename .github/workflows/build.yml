@@ -16,100 +16,154 @@ on:
       - '**/*.jpeg'
 
 jobs:
-  Win-VS:
-    runs-on: windows-2022
+  Build:
+    strategy:
+      matrix:
+        include:
+          - name: Windows
+            os: windows-2022
+            generator: "Visual Studio 17 2022"
+            definitions: "-DNC_COMMON_STATIC_ANALYSIS=ON"
+          - name: Mac
+            os: macos-12
+            generator: "Unix Makefiles"
+            env: "CXX=$(brew --prefix llvm@15)/bin/clang++"
+          - name: Linux
+            os: ubuntu-22.04
+            generator: "Unix MakeFiles"
+            env: "CXX=/usr/bin/g++-12"
+            definitions: "-DCMAKE_BUILD_TYPE=Release"
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v3
+
+      - name: Setup MSVC
+        if: matrix.name == "Windows"
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure
+        run: ${{ matrix.env }} cmake -G "${{ matrix.generator }}" -S . -B build ${{ matrix.definitions }} -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
+
+      - name: Build and Install
+        run: cmake --build build --target install --config Release
+
+      - name: Run Tests
+        working-directory: ${{github.workspace}}/build/test
+        run: ctest -V --output-on-failure --output-junit TestResults.xml
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.name }}-TestResults
+          path: build/test/TestResults.xml
+
+
+
+  # Win-VS:
+  #   runs-on: windows-2022
+
+  #   steps:
+  #   - name: Checkout Branch
+  #     uses: actions/checkout@v3
+
+  #   - name: Setup MSVC
+  #     uses: ilammy/msvc-dev-cmd@v1
+
+  #   - name: Configure
+  #     run: cmake -G "Visual Studio 17 2022" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON -DNC_COMMON_STATIC_ANALYSIS=ON
+
+  #   - name: Build and Install
+  #     run: cmake --build build --target install --config Release
+
+  #   - name: Run Tests
+  #     working-directory: ${{github.workspace}}/build/test
+  #     run: ctest -V --output-on-failure --output-junit TestResults.xml
+
+  #   - name: Upload Test Results
+  #     if: always()
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: Win-VS-17-TestResults
+  #       path: build/test/TestResults.xml
+
+  # Win-MinGW:
+  #   runs-on: windows-2022
+
+  #   defaults:
+  #     run:
+  #       shell: msys2 {0}
+
+  #   steps:
+  #   - name: Checkout Branch
+  #     uses: actions/checkout@v3
+
+  #   - name: Setup MSYS2
+  #     uses: msys2/setup-msys2@v2
+  #     with:
+  #       msystem: 'mingw64'
+  #       update: true
+  #         git
+  #         make
+  #       pacboy: >-
+  #         toolchain:p
+  #         cmake:p
+  #         ninja:p
+
+  #   - name: Configure
+  #     run: cmake -G "Ninja" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DNC_COMMON_BUILD_TESTS=ON
+
+  #   - name: Build and Install
+  #     run: cmake --build build --target install --parallel 2
+
+  #   - name: Run Tests
+  #     working-directory: ${{github.workspace}}/build/test
+  #     run: ctest -V --output-on-failure --output-junit TestResults.xml
+
+  #   - name: Upload Test Results
+  #     if: always()
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: Win-MinGW-TestResults
+  #       path: build/test/TestResults.xml
+
+  # macOS:
+  #   runs-on: macos-12
+
+  #   steps:
+  #   - name: Checkout Branch
+  #     uses: actions/checkout@v3
+
+  #   - name: Configure
+  #     run: CXX=$(brew --prefix llvm@15)/bin/clang++ cmake -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
+
+  #   - name: Build and Install
+  #     run: cmake --build build --target install --config Release
+
+  #   - name: Run Test
+  #     working-directory: ${{github.workspace}}/build/test
+  #     run: ctest -V --output-on-failure --output-junit TestResults.xml
+
+  #   - name: Upload Test Results
+  #     if: always()
+  #     uses: actions/upload-artifact@v3
+  #     with:
+  #       name: macOS-TestResults
+  #       path: build/test/TestResults.xml
+
+  Ubuntu:
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout Branch
       uses: actions/checkout@v3
-
-    - name: Setup MSVC
-      uses: ilammy/msvc-dev-cmd@v1
-
-    - name: Configure
-      run: cmake -G "Visual Studio 17 2022" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON -DNC_COMMON_STATIC_ANALYSIS=ON
-
-    - name: Build and Install
-      run: cmake --build build --target install --config Release
-
-    - name: Run Tests
-      working-directory: ${{github.workspace}}/build/test
-      run: ctest -V --output-on-failure --output-junit TestResults.xml
-
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: Win-VS-17-TestResults
-        path: build/test/TestResults.xml
-
-  Win-MinGW:
-    runs-on: windows-2022
-
-    defaults:
-      run:
-        shell: msys2 {0}
-
-    steps:
-    - name: Checkout Branch
-      uses: actions/checkout@v3
-
-    - name: Setup MSYS2
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: 'mingw64'
-        update: true
-          git
-          make
-        pacboy: >-
-          toolchain:p
-          cmake:p
-          ninja:p
-
-    - name: Configure
-      run: cmake -G "Ninja" -S . -B build -DCMAKE_INSTALL_PREFIX=install -DCMAKE_BUILD_TYPE=Release -DNC_COMMON_BUILD_TESTS=ON
-
-    - name: Build and Install
-      run: cmake --build build --target install --parallel 2
-
-    - name: Run Tests
-      working-directory: ${{github.workspace}}/build/test
-      run: ctest -V --output-on-failure --output-junit TestResults.xml
-
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: Win-MinGW-TestResults
-        path: build/test/TestResults.xml
-
-  macOS:
-    runs-on: macos-12
-
-    steps:
-    - name: Checkout Branch
-      uses: actions/checkout@v3
-
-    - name: Configure
-      run: CXX=$(brew --prefix llvm@15)/bin/clang++ cmake -S ./ -B build -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
-
-    - name: Build and Install
-      run: cmake --build build --target install --config Release
-
-    - name: Run Test
-      working-directory: ${{github.workspace}}/build/test
-      run: ctest -V --output-on-failure --output-junit TestResults.xml
-
-    - name: Upload Test Results
-      if: always()
-      uses: actions/upload-artifact@v3
-      with:
-        name: macOS-TestResults
-        path: build/test/TestResults.xml
 
   Publish-Test-Results:
     runs-on: ubuntu-latest
-    needs: [Win-VS, Win-MinGW, macOS]
+    needs: [Build]
     permissions:
       checks: write
       pull-requests: write
