@@ -41,7 +41,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup MSVC
-        if: matrix.name == "Windows"
+        if: ${{ matrix.name == "Windows" }}
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure
