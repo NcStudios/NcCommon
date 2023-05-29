@@ -7,7 +7,7 @@ project("NcCommon"
 option(NC_COMMON_BUILD_TESTS "Enable building tests." OFF)
 option(NC_COMMON_STATIC_ANALYSIS "Enable static analysis (MSVC Only)" OFF)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_DEBUG_POSTFIX d)
 
