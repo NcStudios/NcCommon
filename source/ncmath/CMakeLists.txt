@@ -18,7 +18,7 @@ target_include_directories(NcMath
 )
 
 # Allow DirectXMath to find Microsoft annotations (sal.h)
-if(NOT MSVC)
+if(NOT WIN32)
     target_include_directories(NcMath
         PUBLIC
             $<INSTALL_INTERFACE:include/platform/unix>
@@ -39,7 +39,7 @@ install(DIRECTORY   ${PROJECT_SOURCE_DIR}/include/ncmath
         DESTINATION include
 )
 
-if(NOT MSVC)
+if(NOT WIN32)
     install(DIRECTORY   ${PROJECT_SOURCE_DIR}/external/platform
             DESTINATION include
     )
