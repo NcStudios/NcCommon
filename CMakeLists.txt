@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project("NcCommon"
-        VERSION "1.0.0"
+        VERSION "1.0.1"
         LANGUAGES CXX
 )
 
@@ -51,7 +51,7 @@ include(FetchContent)
 
 FetchContent_Declare(DirectXMath
                      GIT_REPOSITORY https://github.com/NcStudios/DirectXMath.git
-                     GIT_TAG        ded5227452f4ac0b9e03eedcb5b274871d89afad # origin/main
+                     GIT_TAG        origin/release
                      GIT_SHALLOW    TRUE
 )
 
@@ -64,9 +64,13 @@ FetchContent_Declare(fmt
 
 FetchContent_MakeAvailable(DirectXMath fmt)
 
-# Silence warnings from DirectXMath headers
+# Silence warnings from DirectXMath
 get_target_property(_DirectXMath_Include_Prop DirectXMath INTERFACE_INCLUDE_DIRECTORIES)
 target_include_directories(DirectXMath SYSTEM INTERFACE ${_DirectXMath_Include_Prop})
+
+# Silence warnings from fmt
+get_target_property(_fmt_Include_Prop fmt INTERFACE_INCLUDE_DIRECTORIES)
+target_include_directories(fmt SYSTEM INTERFACE ${_fmt_Include_Prop})
 
 add_subdirectory(source)
 
