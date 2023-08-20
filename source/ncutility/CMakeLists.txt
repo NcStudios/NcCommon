@@ -3,6 +3,7 @@ add_library(NcUtility STATIC)
 target_sources(NcUtility
     PRIVATE
         Compression.cpp
+        $<TARGET_OBJECTS:lz4>
 )
 
 target_compile_options(NcUtility
@@ -13,8 +14,6 @@ target_compile_options(NcUtility
 target_link_libraries(NcUtility
     PUBLIC
         fmt::fmt
-    PRIVATE
-        lz4
 )
 
 target_include_directories(NcUtility

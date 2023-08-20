@@ -24,6 +24,7 @@ add_test(Algorithm_unit_tests Algorithm_unit_tests)
 add_executable(Compression_unit_tests
     Compression_unit_test.cpp
     ${PROJECT_SOURCE_DIR}/source/ncutility/Compression.cpp
+    $<TARGET_OBJECTS:lz4>
 )
 
 target_include_directories(Compression_unit_tests
@@ -41,7 +42,6 @@ target_link_libraries(Compression_unit_tests
     PRIVATE
         gtest_main
         fmt::fmt
-        lz4
 )
 
 add_test(Compression_unit_tests Compression_unit_tests)
