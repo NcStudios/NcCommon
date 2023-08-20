@@ -1,22 +1,31 @@
-add_library(NcUtility INTERFACE)
+add_library(NcUtility STATIC)
+
+target_sources(NcUtility
+    PRIVATE
+        Compression.cpp
+)
+
+target_compile_options(NcUtility
+    PRIVATE
+        ${NC_COMMON_COMPILE_OPTIONS}
+)
 
 target_link_libraries(NcUtility
-    INTERFACE
+    PUBLIC
         fmt::fmt
+    PRIVATE
+        lz4
 )
 
 target_include_directories(NcUtility
-    INTERFACE
+    PUBLIC
         $<INSTALL_INTERFACE:include/>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/source/external>
 )
 
-set_target_properties(NcUtility PROPERTIES
-    PUBLIC_HEADERS
-        ${PROJECT_SOURCE_DIR}/ncutility/Hash.h
-        ${PROJECT_SOURCE_DIR}/ncutility/NcError.h
-        ${PROJECT_SOURCE_DIR}/ncutility/platform/SourceLocation.h
+install(TARGETS     NcUtility
+        DESTINATION lib
 )
 
 install(DIRECTORY   ${PROJECT_SOURCE_DIR}/include/ncutility
