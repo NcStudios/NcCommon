@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 project("NcCommon"
         VERSION "1.0.1"
-        LANGUAGES CXX
+        LANGUAGES CXX C
 )
 
 option(NC_COMMON_BUILD_TESTS "Enable building tests." OFF)

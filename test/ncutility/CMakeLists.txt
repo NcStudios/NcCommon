@@ -20,6 +20,32 @@ target_link_libraries(Algorithm_unit_tests
 
 add_test(Algorithm_unit_tests Algorithm_unit_tests)
 
+### Compression Tests ###
+add_executable(Compression_unit_tests
+    Compression_unit_test.cpp
+    ${PROJECT_SOURCE_DIR}/source/ncutility/Compression.cpp
+    $<TARGET_OBJECTS:lz4>
+)
+
+target_include_directories(Compression_unit_tests
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/include
+        ${PROJECT_SOURCE_DIR}/source/external
+)
+
+target_compile_options(Compression_unit_tests
+    PUBLIC
+        ${NC_COMMON_COMPILE_OPTIONS}
+)
+
+target_link_libraries(Compression_unit_tests
+    PRIVATE
+        gtest_main
+        fmt::fmt
+)
+
+add_test(Compression_unit_tests Compression_unit_tests)
+
 ### ScopeExit Tests ###
 add_executable(ScopeExit_unit_tests
     ScopeExit_unit_test.cpp
