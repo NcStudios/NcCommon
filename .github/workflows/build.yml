@@ -6,7 +6,6 @@ on:
     branches: [ vnext, release ]
     paths-ignore:
       - '**/*.md'
-      - '**/*.txt'
       - '**/*.config'
       - '**/*.ini'
       - '**/*.fbx'
