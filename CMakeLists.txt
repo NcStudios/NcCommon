@@ -51,7 +51,7 @@ include(FetchContent)
 
 FetchContent_Declare(DirectXMath
                      GIT_REPOSITORY https://github.com/NcStudios/DirectXMath.git
-                     GIT_TAG        origin/release
+                     GIT_TAG        21b8256207a68d413c517f97391f8354e5211692 # origin/release
                      GIT_SHALLOW    TRUE
 )
 
@@ -59,7 +59,8 @@ FetchContent_Declare(DirectXMath
 set(FMT_INSTALL ON)
 FetchContent_Declare(fmt
                      GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-                     GIT_TAG        f5e54359df4c26b6230fc61d38aa294581393084 # 10.1.1
+                     GIT_TAG        10.1.1
+                     GIT_SHALLOW    TRUE
 )
 
 FetchContent_MakeAvailable(DirectXMath fmt)
