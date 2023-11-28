@@ -59,7 +59,7 @@ FetchContent_Declare(DirectXMath
 set(FMT_INSTALL ON)
 FetchContent_Declare(fmt
                      GIT_REPOSITORY https://github.com/fmtlib/fmt.git
-                     GIT_TAG        fc07217d85e6dcec52878807d6bbd89a9d9156a5
+                     GIT_TAG        f5e54359df4c26b6230fc61d38aa294581393084 # 10.1.1
 )
 
 FetchContent_MakeAvailable(DirectXMath fmt)
