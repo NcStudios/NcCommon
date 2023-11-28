@@ -20,6 +20,29 @@ target_link_libraries(Algorithm_unit_tests
 
 add_test(Algorithm_unit_tests Algorithm_unit_tests)
 
+### BinarySerialization Tests ###
+add_executable(BinarySerialization_tests
+    BinarySerialization_unit_test.cpp
+)
+
+target_include_directories(BinarySerialization_tests
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+target_compile_options(BinarySerialization_tests
+    PUBLIC
+        ${NC_COMMON_COMPILER_FLAGS}
+)
+
+target_link_libraries(BinarySerialization_tests
+    PRIVATE
+        gtest_main
+        fmt::fmt
+)
+
+add_test(BinarySerialization_tests BinarySerialization_tests)
+
 ### Compression Tests ###
 add_executable(Compression_unit_tests
     Compression_unit_test.cpp
@@ -96,3 +119,25 @@ target_link_libraries(StringHash_unit_tests
 )
 
 add_test(StringHash_unit_tests StringHash_unit_tests)
+
+### Type Tests ###
+add_executable(Type_unit_tests
+    Type_unit_test.cpp
+)
+
+target_include_directories(Type_unit_tests
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}/include
+)
+
+target_compile_options(Type_unit_tests
+    PUBLIC
+        ${NC_COMMON_COMPILE_OPTIONS}
+)
+
+target_link_libraries(Type_unit_tests
+    PRIVATE
+        gtest_main
+)
+
+add_test(Type_unit_tests Type_unit_tests)
