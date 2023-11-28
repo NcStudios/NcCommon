@@ -182,7 +182,7 @@ template<class C>
 void SerializeNonTrivialContainer(BinaryBuffer& buffer, const C& container)
 {
     buffer.Write(container.size());
-    std::ranges::for_each(container, [&buffer](auto&& obj) { Serialize(buffer, obj); });
+    for (const auto& obj : container) Serialize(buffer, obj);
 }
 
 template<class C>
@@ -221,10 +221,7 @@ inline void Serialize(BinaryBuffer& buffer, const std::string& in)
 template<>
 inline void Deserialize(BinaryBuffer& buffer, std::string& out)
 {
-    auto size = size_t{};
-    buffer.Read(size);
-    out.resize(size);
-    buffer.Read(out.data(), size);
+    detail::DeserializeTrivialContainer(buffer, out);
 }
 
 template<type::TriviallyCopyable T>
@@ -276,7 +273,7 @@ void Deserialize(BinaryBuffer& buffer, std::array<T, I>& out)
 {
     auto count = size_t{}; // throwaway value
     Deserialize(buffer, count);
-    std::ranges::for_each(out, [&buffer](auto&& obj) { Deserialize(buffer, obj); });
+    for (auto& obj : out) Deserialize(buffer, obj);
 }
 
 template<class T, class U>
