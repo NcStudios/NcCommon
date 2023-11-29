@@ -142,13 +142,22 @@ TEST(BinarySerializationTest, BinaryBuffer_readWrite_interleavedCallsSucceed)
     auto actual = std::array<int, 3>{0, 0, 0};
     auto uut = nc::serialize::BinaryBuffer{};
     uut.Write(&expected[0], 4);
-    uut.Read(&actual[0], 4);
     uut.Write(&expected[1], 4);
-    uut.Read(&actual[1], 4);
+    uut.Read(&actual[0], 4);
     uut.Write(&expected[2], 4);
+    uut.Read(&actual[1], 4);
     uut.Read(&actual[2], 4);
     EXPECT_EQ(0, uut.AvailableReadBytes());
     EXPECT_TRUE(std::ranges::equal(expected, actual));
+}
+
+TEST(BinarySerializationTest, BinaryBuffer_readPastEnd_throws)
+{
+    auto uut = nc::serialize::BinaryBuffer{};
+    auto dummy = 1;
+    uut.Write(&dummy, 4);
+    uut.Read(&dummy, 4);
+    EXPECT_THROW(uut.Read(&dummy, 4), nc::NcError);
 }
 
 TEST(BinarySerializationTest, BinaryBuffer_resize_growthPreservesPositions)
