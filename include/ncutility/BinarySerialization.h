@@ -1,8 +1,14 @@
 /**
- * @file Type.h
+ * @file BinarySerialization.h
  * @copyright Copyright Jaremie Romer and McCallister Romer 2023
  */
 #pragma once
+
+#if defined(__APPLE__)
+    /** @note While this is likely fine on apple/clang, tests can't build
+     * in CI. Disabling consumption on macOS until there is test coverage. */
+    #error "BinarySerialization.h is currently unsupported on macOS."
+#endif
 
 #include "ncutility/NcError.h"
 #include "ncutility/Type.h"

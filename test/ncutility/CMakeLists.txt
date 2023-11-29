@@ -21,27 +21,30 @@ target_link_libraries(Algorithm_unit_tests
 add_test(Algorithm_unit_tests Algorithm_unit_tests)
 
 ### BinarySerialization Tests ###
-add_executable(BinarySerialization_tests
-    BinarySerialization_unit_test.cpp
-)
+# AppleClange/clang versions in CI don't quite have necessary c++20 features.
+if(NOT APPLE)
+    add_executable(BinarySerialization_tests
+        BinarySerialization_unit_test.cpp
+    )
 
-target_include_directories(BinarySerialization_tests
-    PRIVATE
-        ${PROJECT_SOURCE_DIR}/include
-)
+    target_include_directories(BinarySerialization_tests
+        PRIVATE
+            ${PROJECT_SOURCE_DIR}/include
+    )
 
-target_compile_options(BinarySerialization_tests
-    PUBLIC
-        ${NC_COMMON_COMPILER_FLAGS}
-)
+    target_compile_options(BinarySerialization_tests
+        PUBLIC
+            ${NC_COMMON_COMPILER_FLAGS}
+    )
 
-target_link_libraries(BinarySerialization_tests
-    PRIVATE
-        gtest_main
-        fmt::fmt
-)
+    target_link_libraries(BinarySerialization_tests
+        PRIVATE
+            gtest_main
+            fmt::fmt
+    )
 
-add_test(BinarySerialization_tests BinarySerialization_tests)
+    add_test(BinarySerialization_tests BinarySerialization_tests)
+endif()
 
 ### Compression Tests ###
 add_executable(Compression_unit_tests
