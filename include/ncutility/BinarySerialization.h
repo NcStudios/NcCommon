@@ -15,7 +15,7 @@
 namespace nc::serialize
 {
 /**
- * @brief Serialize and object to a stream.
+ * @brief Serialize an object to a stream.
  * 
  * Serialize and Deserialize are function objects with call signatures:
  *     `void Serialize(std::ostream&, const T&)`
@@ -23,7 +23,7 @@ namespace nc::serialize
  * 
  * Calls to them are equivalent to the first matched valid expression among:
  *   1. A non-static member function with the signature:
- *        `void T::Serialize(std::ostream&)`
+ *        `void T::Serialize(std::ostream&) const`
  *        `void T::Deserialize(std::istream&)`
  *   2. A non-member function found via adl with the signature:
  *        `void Serialize(std::ostream&, const T&)`

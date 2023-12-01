@@ -142,17 +142,14 @@ static_assert(nc::serialize::cpo::HasDeserializeMember<HasMemberFunc>);
 TEST(BinarySerializationTest, Serialize_primitives_preservedRoundTrip)
 {
     auto stream = std::stringstream{};
-
     const auto expectedInt = 42;
     const auto expectedFloat = 3.14f;
-    nc::serialize::Serialize(stream, expectedInt);
-    nc::serialize::Serialize(stream, expectedFloat);
-
     auto actualInt = 0;
     auto actualFloat = 0.0f;
+    nc::serialize::Serialize(stream, expectedInt);
+    nc::serialize::Serialize(stream, expectedFloat);
     nc::serialize::Deserialize(stream, actualInt);
     nc::serialize::Deserialize(stream, actualFloat);
-
     EXPECT_EQ(expectedInt, actualInt);
     EXPECT_EQ(expectedFloat, actualFloat);
 }
