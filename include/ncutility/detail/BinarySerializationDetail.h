@@ -35,39 +35,39 @@ template<class T>
 consteval auto MemberCount() -> size_t
 {
     using U = UniversalType;
-    if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U, U, U,  U>)
+    if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}}; })
         return g_failedMemberCount;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{}}; })
         return 16ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}}; })
         return 15ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}}; })
         return 14ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}}; })
         return 13ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{}}; })
         return 12ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}}; })
         return 11ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}}; })
         return 10ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}}; })
         return 9ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{}}; })
         return 8ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}}; })
         return 7ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}}; })
         return 6ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U,  U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}}; })
         return 5ull;
-    else if constexpr (std::constructible_from<T, U, U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}}; })
         return 4ull;
-    else if constexpr (std::constructible_from<T, U, U, U>)
+    else if constexpr (requires { T{U{}, U{}, U{}}; })
         return 3ull;
-    else if constexpr (std::constructible_from<T, U, U>)
+    else if constexpr (requires { T{U{}, U{}}; })
         return 2ull;
-    else if constexpr (std::constructible_from<T, U>)
+    else if constexpr (requires { T{U{}}; })
         return 1ull;
     else
         return 0ull;
