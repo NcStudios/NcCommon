@@ -26,14 +26,6 @@ TEST(TypeTests, Concept_Aggregate)
     static_assert(!nc::type::Aggregate<NonAggregateType>);
 }
 
-TEST(TypeTests, Concept_NonTrivialAggregate)
-{
-    static_assert(!nc::type::NonTrivialAggregate<EmptyType>);
-    static_assert(!nc::type::NonTrivialAggregate<TrivialType>);
-    static_assert(nc::type::NonTrivialAggregate<NonTrivialType>);
-    static_assert(!nc::type::NonTrivialAggregate<NonAggregateType>);
-}
-
 TEST(TypeTests, MemberCount)
 {
     static_assert(nc::type::MemberCount<EmptyType>() == 0ull);

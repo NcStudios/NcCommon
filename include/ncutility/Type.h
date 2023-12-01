@@ -22,9 +22,6 @@ concept Aggregate = requires
     requires std::is_aggregate_v<T>;
 };
 
-template<class T>
-concept NonTrivialAggregate = !TriviallyCopyable<T> && Aggregate<T>;
-
 /** @brief Specifies an aggregate type is constructible with the given list of arguments. */
 template<class Aggregate, class... Args>
 concept ConstructibleWith = requires
