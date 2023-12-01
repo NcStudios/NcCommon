@@ -224,7 +224,7 @@ TEST(BinarySerializationTest, Serialize_map_preservedRoundTrip)
 
 }
 
-TEST(BinarySerializationTest, Serialize_containers_preservedRoundTrip)
+TEST(BinarySerializationTest, Serialize_optional_preservedRoundTrip)
 {
     auto stream = std::stringstream{};
     const auto nonEmptyOptional = std::make_optional<test::BigAggregate>(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, "test");
