@@ -37,9 +37,9 @@ struct Aggregate
     auto operator<=>(const Aggregate&) const = default;
 };
 
-static_assert(nc::type::Aggregate<Aggregate>);
-static_assert(!nc::type::TriviallyCopyable<Aggregate>);
-static_assert(nc::type::MemberCount<Aggregate>() <= nc::serialize::g_aggregateMaxMemberCount);
+static_assert(std::is_aggregate_v<Aggregate>);
+static_assert(!std::is_trivially_copyable_v<Aggregate>);
+static_assert(nc::serialize::binary::MemberCount<Aggregate>() <= nc::serialize::g_aggregateMaxMemberCount);
 static_assert(nc::serialize::cpo::HasSerializeDefault<Aggregate>);
 static_assert(nc::serialize::cpo::HasDeserializeDefault<Aggregate>);
 
@@ -70,9 +70,9 @@ void Deserialize(std::istream& stream, test::BigAggregate& in)
     );
 }
 
-static_assert(nc::type::Aggregate<BigAggregate>);
-static_assert(!nc::type::TriviallyCopyable<BigAggregate>);
-static_assert(nc::type::MemberCount<BigAggregate>() > nc::serialize::g_aggregateMaxMemberCount);
+static_assert(std::is_aggregate_v<BigAggregate>);
+static_assert(!std::is_trivially_copyable_v<BigAggregate>);
+static_assert(nc::serialize::binary::MemberCount<BigAggregate>() > nc::serialize::g_aggregateMaxMemberCount);
 static_assert(nc::serialize::cpo::HasSerializeAdl<BigAggregate>);
 static_assert(nc::serialize::cpo::HasDeserializeAdl<BigAggregate>);
 
@@ -103,8 +103,8 @@ void Deserialize(std::istream& stream, test::NonAggregate& out)
     nc::serialize::binary::DeserializeMultiple(stream, out.X(), out.Y());
 }
 
-static_assert(!nc::type::Aggregate<NonAggregate>);
-static_assert(!nc::type::TriviallyCopyable<NonAggregate>);
+static_assert(!std::is_aggregate_v<NonAggregate>);
+static_assert(!std::is_trivially_copyable_v<NonAggregate>);
 static_assert(nc::serialize::cpo::HasSerializeAdl<NonAggregate>);
 static_assert(nc::serialize::cpo::HasDeserializeAdl<NonAggregate>);
 

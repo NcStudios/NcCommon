@@ -122,25 +122,3 @@ target_link_libraries(StringHash_unit_tests
 )
 
 add_test(StringHash_unit_tests StringHash_unit_tests)
-
-### Type Tests ###
-add_executable(Type_unit_tests
-    Type_unit_test.cpp
-)
-
-target_include_directories(Type_unit_tests
-    PRIVATE
-        ${PROJECT_SOURCE_DIR}/include
-)
-
-target_compile_options(Type_unit_tests
-    PUBLIC
-        ${NC_COMMON_COMPILE_OPTIONS}
-)
-
-target_link_libraries(Type_unit_tests
-    PRIVATE
-        gtest_main
-)
-
-add_test(Type_unit_tests Type_unit_tests)

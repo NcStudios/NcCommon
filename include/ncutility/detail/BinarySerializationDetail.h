@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ncutility/NcError.h"
-#include "ncutility/Type.h"
 
 #include <algorithm>
 #include <array>
@@ -16,19 +15,77 @@
 namespace nc::serialize::binary
 {
 template<class T>
+concept TriviallyCopyable = requires { requires std::is_trivially_copyable_v<T>; };
+
+template<class T>
+concept Aggregate = requires { requires std::is_aggregate_v<T>; };
+
+// Max supported member count for automatic aggregate serialization
+inline constexpr auto g_aggregateMaxMemberCount = 16ull;
+
+// Arbitrarily large value returned from MemberCount() when a type has too many members.
+inline constexpr size_t g_failedMemberCount = 0xFFFFFFFFFFFFFFFF;
+
+// A type which is implicitly convertable to all other types
+struct UniversalType{ template<class T> operator T() const; };
+
+// Count the number of members in an aggregate, returns g_failedMemberCount for types with > 16 members
+template<class T>
+    requires requires { std::is_aggregate_v<T>; }
+consteval auto MemberCount() -> size_t
+{
+    using U = UniversalType;
+    if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U, U, U,  U>)
+        return g_failedMemberCount;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U, U, U>)
+        return 16ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U, U>)
+        return 15ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U, U>)
+        return 14ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U,  U>)
+        return 13ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U, U>)
+        return 12ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U, U>)
+        return 11ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U, U>)
+        return 10ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U,  U>)
+        return 9ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U, U>)
+        return 8ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U, U>)
+        return 7ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U, U>)
+        return 6ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U,  U>)
+        return 5ull;
+    else if constexpr (std::constructible_from<T, U, U, U, U>)
+        return 4ull;
+    else if constexpr (std::constructible_from<T, U, U, U>)
+        return 3ull;
+    else if constexpr (std::constructible_from<T, U, U>)
+        return 2ull;
+    else if constexpr (std::constructible_from<T, U>)
+        return 1ull;
+    else
+        return 0ull;
+}
+
+// Concept for aggregate types that have automatic serialization support
+template<class T>
+concept UnpackableAggregate = Aggregate<T>
+                          && !TriviallyCopyable<T>
+                          && (MemberCount<T>() <= g_aggregateMaxMemberCount);
+
+template<class T>
 void Serialize(std::ostream& stream, const T& in);
 
 template<class T>
 void Deserialize(std::istream& stream, T& out);
 
-inline constexpr auto g_aggregateMaxMemberCount = 16ull;
-
-template<class T>
-concept UnpackableAggregate = type::Aggregate<T>
-                          && !type::TriviallyCopyable<T>
-                          && (type::MemberCount<T>() <= g_aggregateMaxMemberCount);
-
-template<type::TriviallyCopyable T>
+template<TriviallyCopyable T>
 void Serialize(std::ostream& stream, const T& in);
 
 template<UnpackableAggregate T>
@@ -49,7 +106,7 @@ void Serialize(std::ostream& stream, const std::unordered_map<K, V>& in);
 template<class T>
 void Serialize(std::ostream& stream, const std::optional<T>& in);
 
-template<type::TriviallyCopyable T>
+template<TriviallyCopyable T>
 void Deserialize(std::istream& stream, T& in);
 
 template<UnpackableAggregate T>
@@ -120,13 +177,13 @@ void DeserializeNonTrivialContainer(std::istream& stream, C& container)
     });
 }
 
-template<type::TriviallyCopyable T>
+template<TriviallyCopyable T>
 void Serialize(std::ostream& stream, const T& in)
 {
     stream.write(reinterpret_cast<const char*>(&in), sizeof(T));
 }
 
-template<type::TriviallyCopyable T>
+template<TriviallyCopyable T>
 void Deserialize(std::istream& stream, T& out)
 {
     stream.read(reinterpret_cast<char*>(&out), sizeof(T));
@@ -250,7 +307,7 @@ void Deserialize(std::istream& stream, std::optional<T>& out)
 template<UnpackableAggregate T>
 void Serialize(std::ostream& stream, const T& in)
 {
-    constexpr auto memberCount = type::MemberCount<T>();
+    static constexpr auto memberCount = MemberCount<T>();
     static_assert(memberCount <= g_aggregateMaxMemberCount);
 
     if constexpr (memberCount == 16)
@@ -338,7 +395,7 @@ void Serialize(std::ostream& stream, const T& in)
 template<UnpackableAggregate T>
 void Deserialize(std::istream& stream, T& out)
 {
-    constexpr auto memberCount = type::MemberCount<T>();
+    static constexpr auto memberCount = MemberCount<T>();
     static_assert(memberCount <= g_aggregateMaxMemberCount);
 
     if constexpr (memberCount == 16)
