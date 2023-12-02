@@ -2,6 +2,8 @@ name: Build
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * 5'
   pull_request:
     branches: [ vnext, release ]
     paths-ignore:
@@ -31,7 +33,7 @@ jobs:
             os: ubuntu-22.04
             generator: "Unix Makefiles"
             env: "CXX=/usr/bin/g++-12"
-            definitions: "-DCMAKE_BUILD_TYPE=Release"
+            definitions: "-DCMAKE_BUILD_TYPE=Debug"
 
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
@@ -48,7 +50,7 @@ jobs:
         run: ${{ matrix.env }} cmake -G "${{ matrix.generator }}" -S . -B build ${{ matrix.definitions }} -DCMAKE_INSTALL_PREFIX=install -DNC_COMMON_BUILD_TESTS=ON
 
       - name: Build and Install
-        run: cmake --build build --target install --config Release
+        run: cmake --build build --target install --config Debug
 
       - name: Run Tests
         working-directory: ${{github.workspace}}/build/test
