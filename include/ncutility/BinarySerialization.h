@@ -36,7 +36,7 @@ namespace nc::serialize
  *   - Trivially copyable types
  *   - Stl types: string, array, vector, unordered_map, pair, and optional
  *   - Aggregates with <= 16 members, each satisfying at least one
- *     of these requirements
+ *     of the above requirements
  */
 inline constexpr nc::serialize::cpo::SerializeFn Serialize;
 
@@ -48,4 +48,4 @@ inline constexpr nc::serialize::cpo::DeserializeFn Deserialize;
 
 /** @brief The maximum number of members an aggregate may have for default serialization. */
 inline constexpr size_t g_aggregateMaxMemberCount = 16ull;
-} // namespace nc::serizlize
+} // namespace nc::seriazlize

@@ -35,31 +35,31 @@ template<class T>
 consteval auto MemberCount() -> size_t
 {
     using U = UniversalType;
-    if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}}; })
+    if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return g_failedMemberCount;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 16ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 15ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 14ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 13ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 12ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 11ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 10ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{},  U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 9ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 8ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 7ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}, U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}, U{}}; })
         return 6ull;
-    else if constexpr (requires { T{U{}, U{}, U{}, U{},  U{}}; })
+    else if constexpr (requires { T{U{}, U{}, U{}, U{}, U{}}; })
         return 5ull;
     else if constexpr (requires { T{U{}, U{}, U{}, U{}}; })
         return 4ull;
@@ -82,9 +82,6 @@ concept UnpackableAggregate = Aggregate<T>
 template<class T>
 void Serialize(std::ostream& stream, const T& in);
 
-template<class T>
-void Deserialize(std::istream& stream, T& out);
-
 template<TriviallyCopyable T>
 void Serialize(std::ostream& stream, const T& in);
 
@@ -105,6 +102,9 @@ void Serialize(std::ostream& stream, const std::unordered_map<K, V>& in);
 
 template<class T>
 void Serialize(std::ostream& stream, const std::optional<T>& in);
+
+template<class T>
+void Deserialize(std::istream& stream, T& out);
 
 template<TriviallyCopyable T>
 void Deserialize(std::istream& stream, T& in);
