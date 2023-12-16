@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project("NcCommon"
-        VERSION "1.0.1"
+        VERSION "1.1.0"
         LANGUAGES CXX C
 )
 
@@ -51,7 +51,7 @@ include(FetchContent)
 
 FetchContent_Declare(DirectXMath
                      GIT_REPOSITORY https://github.com/NcStudios/DirectXMath.git
-                     GIT_TAG        21b8256207a68d413c517f97391f8354e5211692 # origin/release
+                     GIT_TAG        v3.1.6+nc.1
                      GIT_SHALLOW    TRUE
 )
 
